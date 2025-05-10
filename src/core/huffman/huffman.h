@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define MAX_TREE_HIT 100
+#define MAX_TREE_HIT 100000
 
 typedef unint8_t byte;
 
