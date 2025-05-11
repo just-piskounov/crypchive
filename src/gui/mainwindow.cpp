@@ -403,6 +403,12 @@ void MainWindow::updateHuffmanTable() {
     huffmanCodesTable->sortItems(2, Qt::AscendingOrder);
 }
 
+// Also need to implement displayHuffmanCodes() since it's in the header
+void MainWindow::displayHuffmanCodes() {
+    // This can just call updateHuffmanTable which already does this work
+    updateHuffmanTable();
+}
+
 QString MainWindow::bytesToHexString(const std::vector<byte>& data, int maxChars) {
     std::stringstream ss;
     ss << std::hex << std::setfill('0');

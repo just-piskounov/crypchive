@@ -37,7 +37,7 @@ private slots:
     void saveFile();
     void compressData();
     void decompressData();
-    void showStatistics();
+    // Removed showStatistics() declaration as it's not implemented
     void updateHuffmanTable();
 
 private:

@@ -147,16 +147,3 @@ void HuffmanCodes(byte data[], int freq[], int size) {
     printCodes(root, arr, top);
 }
 
-/* 
-// Removed the main function as we'll be calling it from Qt GUI
-int main(int argc, char **argv) {
-    char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
-    int freq[] = { 5, 9, 12, 13, 16, 45 };
-
-    int size = sizeof(arr) / sizeof(arr[0]);
-
-    HuffmanCodes(arr, freq, size);
-
-    return 0;
-}
-*/
