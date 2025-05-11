@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define MAX_TREE_HIT 100000
+#define MAX_TREE_HT 100000
 
 typedef uint8_t byte;
 
@@ -14,8 +14,8 @@ typedef struct MinHeapNode {
   struct MinHeapNode *left, *right;
 } minheapNode;
 
-// Minheap type/data-strucutre
-typedef struct MinHeap{
+// Minheap type/data-structure
+typedef struct MinHeap {
   unsigned size;
   unsigned capacity;
   minheapNode** array;
@@ -26,7 +26,7 @@ minheapNode* NewNode(byte data, unsigned freq);
 
 minheap* createMinheap(unsigned capacity);
 
-void swapMinHeapNode(minheapNode** a, minheapNode** b);
+void swapMinheapNode(minheapNode** a, minheapNode** b);
 
 void minHeapify(minheap* minHeap, int idx);
 
@@ -43,7 +43,7 @@ void printArr(int arr[], int n);
 
 int isLeaf(minheapNode* root);
 
-minheap* createAndbuildMinHeap(byte data[], int freq[], int size);
+minheap* createAndbuildMinheap(byte data[], int freq[], int size);
 
 // Huffman coding
 minheapNode* buildHuffmanTree(byte data[], int freq[], int size);
