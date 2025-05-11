@@ -5,7 +5,7 @@
 
 #define MAX_TREE_HIT 100000
 
-typedef unint8_t byte;
+typedef uint8_t byte;
 
 // Minheap data structure to store the huffman tree
 typedef struct MinHeapNode {

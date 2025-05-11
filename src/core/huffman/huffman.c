@@ -12,19 +12,19 @@ temp->left = temp->right = NULL;
 }
 
 minheap* createMinheap(unsigned capacity) {
-  minHeap* = (minheap*)malloc(sizeof(minheap));
+  minheap* minHeap = (minheap*)malloc(sizeof(minheap));
 
   minHeap->size = 0;
   minHeap->capacity = capacity;
 
-  minHeap->array = (minheapNode**)malloc(minHeap->capacity)*sizeof(minheapNode*);
-  return minHeap:
+  minHeap->array = (minheapNode**)malloc(minHeap->capacity*sizeof(minheapNode*));
+  return minHeap;
 }
 
 void swapMinheapNode(minheapNode** a, minheapNode** b){
   minheapNode* t = *a;
   *a = *b;
-  *b = *t;
+  *b = t;
 }
 
 void minHeapify(minheap* minHeap, int idx){
@@ -139,7 +139,7 @@ void printCodes(minHeapNode* root, int arr[], int top){
 
 void HuffmanCodes(byte data[], int freq[], int size){
     minheapNode* root = buildHuffmanTree(data, freq, size);
-    int arr[MAX_TREE_HT], top = 0;
+    int arr[MAX_TREE_HIT], top = 0;
     printCodes(root, arr, top);
 }
 
