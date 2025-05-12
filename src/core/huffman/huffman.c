@@ -3,7 +3,12 @@
 #include "huffman.h"
 
 minheapNode* NewNode(byte data, unsigned freq) {
+
   minheapNode* temp = (minheapNode*)malloc(sizeof(minheapNode));
+  if (!temp) {
+    fprintf(stderr, "Error: Memory allocation failed for new node.\n");
+    exit(1);
+  }
   
   temp->left = temp->right = NULL;
   temp->data = data;
@@ -13,11 +18,21 @@ minheapNode* NewNode(byte data, unsigned freq) {
 
 minheap* createMinheap(unsigned capacity) {
   minheap* minHeap = (minheap*)malloc(sizeof(minheap));
+  if (!minHeap) {
+    fprintf(stderr, "Error: Memory allocation failed for minheap.\n");
+    exit(1);
+  }
 
   minHeap->size = 0;
   minHeap->capacity = capacity;
 
   minHeap->array = (minheapNode**)malloc(minHeap->capacity * sizeof(minheapNode*));
+  if (!minHeap->array) {
+    fprintf(stderr, "Error: Memory allocation failed for minheap array.\n");
+    free(minHeap);
+    exit(1);
+  }
+
   return minHeap;
 }
 
@@ -51,6 +66,11 @@ int isSizeOne(minheap* minHeap) {
 }
 
 minheapNode* extractMin(minheap* minHeap) {
+  if (!minHeap || minHeap->size <= 0) {
+    fprintf(stderr, "Error: Attempt to extract from an empty or null minheap.\n");
+    return NULL;
+  }
+
   minheapNode* temp = minHeap->array[0];
   minHeap->array[0] = minHeap->array[minHeap->size - 1];
 
@@ -61,6 +81,11 @@ minheapNode* extractMin(minheap* minHeap) {
 }
 
 void insertMinHeap(minheap* minHeap, minheapNode* minHeapNode) {
+  if (!minHeap || !minHeapNode) {
+    fprintf(stderr, "Error: Null pointer passed to insertMinHeap.\n");
+    return;
+  }
+
   ++minHeap->size;
   int i = minHeap->size - 1;
 
@@ -93,10 +118,20 @@ int isLeaf(minheapNode* root) {
 }
 
 minheap* createAndbuildMinheap(byte data[], int freq[], int size) {
+  if (!data || !freq || size <= 0) {
+    fprintf(stderr, "Error: Invalid input to createAndbuildMinheap.\n");
+    return NULL;
+  }
+
   minheap* minHeap = createMinheap(size);
-  
   for (int i = 0; i < size; ++i) {
     minHeap->array[i] = NewNode(data[i], freq[i]);
+    if (!minHeap->array[i]) {
+      fprintf(stderr, "Error: Failed to create node for data[%d].\n", i);
+      free(minHeap->array);
+      free(minHeap);
+      exit(1);
+    }
   }
   
   minHeap->size = size;
@@ -106,22 +141,45 @@ minheap* createAndbuildMinheap(byte data[], int freq[], int size) {
 }
 
 minheapNode* buildHuffmanTree(byte data[], int freq[], int size) {
+  if (!data || !freq || size <= 0) {
+    fprintf(stderr, "Error: Invalid input to buildHuffmanTree.\n");
+    return NULL;
+  }
+
   minheapNode *left, *right, *top;
   minheap* minHeap = createAndbuildMinheap(data, freq, size);
+  if (!minHeap) {
+    fprintf(stderr, "Error: Failed to create and build minheap.\n");
+    return NULL;
+  }
 
   while (!isSizeOne(minHeap)) {
     left = extractMin(minHeap);
     right = extractMin(minHeap);
+    if (!left || !right) {
+      fprintf(stderr, "Error: Failed to extract nodes from minheap.\n");
+      free(minHeap->array);
+      free(minHeap);
+      exit(1);
+    }
     
-    // '$' is used as an internal node marker
     top = NewNode('$', left->freq + right->freq);
+    if (!top) {
+      fprintf(stderr, "Error: Failed to create internal node.\n");
+      free(minHeap->array);
+      free(minHeap);
+      exit(1);
+    }
     top->left = left;
     top->right = right;
 
     insertMinHeap(minHeap, top);
   }
   
-  return extractMin(minHeap);
+  minheapNode* root = extractMin(minHeap);
+  free(minHeap->array);
+  free(minHeap);
+  return root;
 }
 
 void printCodes(minheapNode* root, int arr[], int top) {
@@ -142,8 +200,19 @@ void printCodes(minheapNode* root, int arr[], int top) {
 }
 
 void HuffmanCodes(byte data[], int freq[], int size) {
-    minheapNode* root = buildHuffmanTree(data, freq, size);
-    int arr[MAX_TREE_HT], top = 0;
-    printCodes(root, arr, top);
+  if (!data || !freq || size <= 0) {
+    fprintf(stderr, "Error: Invalid input to HuffmanCodes.\n");
+    return;
+  }
+
+  minheapNode* root = buildHuffmanTree(data, freq, size);
+  if (!root) {
+    fprintf(stderr, "Error: Failed to build Huffman Tree.\n");
+    return;
+  }
+
+  int arr[MAX_TREE_HT], top = 0;
+
+  printCodes(root, arr, top);
 }
 
